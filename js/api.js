@@ -4,7 +4,7 @@ var datosTask = new Promise(function (resolve, reject) {
     var today = new Date().toLocaleDateString();
 
     if (localStorage.datosData == null || localStorage.datosData == "null" || localStorage.datosData == "undefined" || localStorage.userDate != today ) {
-        d3.json(datosURL + "/api/categorias-datos-abiertos/?format=json&page_size=10s0", function (error, datos) {
+        d3.json(datosURL + "/api/categorias-datos-abiertos/?format=json&page_size=100", function (error, datos) {
             if (error) reject(error);
             resolve(datos);
             localStorage.datosData = JSON.stringify(datos);
