@@ -24,32 +24,6 @@ function dendogram(datos) {
     // console.log(data);
 
 
-    // var dataNodesAux = new Array();
-    // dataNodes.forEach(function (value, i) {
-    //     dataNodesAux.push(i);
-    // });
-    //
-    // console.log(dataNodesAux);
-    // //
-    // // var filterSecretaries = getParameterByName("secretarias");
-    // // if (filterSecretaries) {
-    // //     var ids = filterSecretaries.split(secreatariesSeparator);
-    // //     filterSecretaries = new Array();
-    // //     ids.forEach(function (o) { //id -> nombre
-    // //         filterSecretaries.push(secretaries[o]);
-    // //     });
-    // //     var filtered = results.children.filter(function (director) {
-    // //         return filterSecretaries.indexOf(director.office) >= 0;
-    // //     });
-    // //     if (filtered) {
-    // //         if (filtered.length == 1) {
-    // //             results = filtered[0];
-    // //         } else {
-    // //             results.children = filtered;
-    // //         }
-    // //     }
-    // // }
-
     var cluster = d3.layout.cluster()
         .size([360, radius - 120]);
 
@@ -57,12 +31,12 @@ function dendogram(datos) {
         .projection(function (d) {
             return [d.y, d.x / 180 * Math.PI];
         });
-
+    var auxRadius = radius*3;
     var svg = d3.select("#dendogram").append("svg")
         .attr("width", radius * 2)
         .attr("height", radius * 2)
         .append("g")
-        .attr("transform", "translate(" + radius + "," + radius + ")");
+        .attr("transform", "scale(0.85), translate(" + auxRadius/2.5 + "," + auxRadius/2.75 + ")");
 
     var nodes = cluster.nodes(results);
 
