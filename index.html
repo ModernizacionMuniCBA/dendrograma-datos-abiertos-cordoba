@@ -10,6 +10,7 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.15.0/lodash.min.js"></script>
     <script src="js/api.js"></script>
     <script src="js/parser.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
     <style>
       html {
@@ -73,8 +74,9 @@
         }
 
         .node text {
-          font-size: 11px;
-          transform:
+          font-size: 16px;
+          font-family: 'Roboto', sans-serif;
+          max-width: 10px;
         }
 
         .link {
@@ -90,8 +92,10 @@
 
     <script>
       (function() {
-          var datos = JSON.parse(localStorage.datosData);
-          var results = generateTree(datos.results, 1)[0];
+          var cats = JSON.parse(localStorage.datosData);
+          var datos = JSON.parse(localStorage.graphDatosData);
+
+          var results = generateTree(cats.results, datos, 1)[0];
 
           var cluster = d3.select("#vis").append("svg")
 

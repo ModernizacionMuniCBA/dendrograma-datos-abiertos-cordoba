@@ -21,6 +21,31 @@
 "use strict";
 
 
+function wrap(text, width) {
+  text.each(function() {
+    var text = d3.select(this),
+        words = text.text().split(/\s+/).reverse(),
+        word,
+        line = [],
+        lineNumber = 0,
+        lineHeight = 0.75, // ems
+        y = text.attr("y"),
+        dy = parseFloat(text.attr("dy")),
+        tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+    while (word = words.pop()) {
+      line.push(word);
+      tspan.text(line.join(" "));
+      if (tspan.node().getComputedTextLength() > width) {
+        line.pop();
+        tspan.text(line.join(" "));
+        line = [word];
+        tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", "1.1em").text(word);
+
+      }
+    }
+  });
+}
+
 d3.chart("hierarchy", {
 
   initialize: function() {
@@ -548,7 +573,8 @@ d3.chart("cluster-tree").extend("cluster-tree.radial", {
 
       this.select("text")
         .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
-        .attr("transform",   function(d) { return d.x < 180 ? "translate(40)" : "rotate(180)translate(-40)"; });
+        .attr("transform",   function(d) { return d.x < 180 ? "translate(40)" : "rotate(180)translate(-40)"; })
+        .call(wrap, 125);
     });
 
     chart.layers.nodes.on("merge:transition", function() {
