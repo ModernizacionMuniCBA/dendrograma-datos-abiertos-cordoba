@@ -1,24 +1,113 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet"/>
+    <title>Dendrograma de Datos Abiertos - Córdoba</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.15.0/lodash.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.0.1/spin.min.js"></script>
-    <script src="js/spinner.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="https://rawgit.com/misoproject/d3.chart/master/d3.chart.min.js"></script>
+    <script src="js/d3.chart.layout.hierarchy.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.15.0/lodash.min.js"></script>
     <script src="js/api.js"></script>
     <script src="js/parser.js"></script>
-    <script src="js/application.js"></script>
-    <title>Dendograma de Funcionarios</title>
-</head>
-<body>
-    <div id="filters"></div>
-    <div id="dendogram"></div>
-</body>
+
+    <style>
+      html {
+        /* display: table; */
+        position: absolute;
+        width: 100%;
+        height: 100%;
+      }
+
+      #vis {
+        width: 100%;
+        height: 100vh;
+      }
+
+        .node {
+          cursor: pointer;
+        }
+
+        .node.leaf {
+          cursor: default;
+        }
+
+        .node circle {
+          fill: lightsteelblue;
+          stroke: steelblue;
+          stroke-width: 1.5px;
+        }
+
+        .node.d-0 circle {
+          fill: mediumblue;
+          stroke: midnightblue;
+          stroke-width: 1.5px;
+        }
+
+        .node.d-1 circle {
+          fill: mediumturquoise;
+          stroke: teal;
+          stroke-width: 1.5px;
+        }
+
+        .node.d-2 circle {
+          fill: forestgreen;
+          stroke: darkgreen;
+          stroke-width: 1.5px;
+        }
+
+        .node.d-3 circle {
+          fill: crimson;
+          stroke: firebrick;
+          stroke-width: 1.5px;
+        }
+
+        .node.d-4 circle {
+          fill: darkorchid;
+          stroke: darkviolet;
+          stroke-width: 1.5px;
+        }
+
+        .node.leaf circle {
+          fill: #fff;
+        }
+
+        .node text {
+          font-size: 11px;
+          transform:
+        }
+
+        .link {
+          fill: none;
+          stroke: #ccc;
+          stroke-width: 1.5px;
+        }
+    </style>
+  </head>
+  <body>
+
+    <div id="vis"></div>
+
+    <script>
+      (function() {
+          var datos = JSON.parse(localStorage.datosData);
+          var results = generateTree(datos.results, 1)[0];
+
+          var cluster = d3.select("#vis").append("svg")
+
+            .chart("cluster.radial")
+
+            .radius(function(d) { if( d.size ) return 30/d.size; else return 3; })
+            .levelGap(200)
+            .zoomable([0.1, 3])
+            .collapsible(1)
+            .colors(d3.scale.category10())
+
+            //.duration(200)
+            ;
+          console.log(results);
+          cluster.draw(results);
+      }());
+    </script>
+  </body>
 </html>
