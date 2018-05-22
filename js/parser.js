@@ -23,11 +23,27 @@ function generateChildrenTree(array, arrayDatos, parent, level) {
 
 
 function generateChildrenDataTree(array, parent, level) {
-  return _.map(getChildrenData(array, parent), function (catData) {
+  if(parent.nombre.toLowerCase() != "declaraciones juradas de funcionarios"){
+    return _.map(getChildrenData(array, parent.nombre), function (catData) {
           var catData = createDataSet(catData, level);
           return catData;
-      }
-  );
+    });
+  }else{
+        var auxA = [];
+        var aux ={};
+        var tot = _.map(getChildrenData(array, parent.nombre), function (catData) {
+              var catData = createDataSet(catData, level);
+              return catData;
+        });
+        aux["titulo"]="Existen "+ tot.length+" datos";
+        aux["icon"]="multiple";
+        aux["url"] = "/data/datos-abiertos/categoria/declaraciones-juradas-de-funcionarios";
+        auxA[0]=aux;
+    return _.map(auxA, function (catData) {
+          var catData = createDataSetVersionResource(catData, level);
+          return catData;
+    });
+  }
 }
 
 function getChildrenData(arrayDatos, cat) {
@@ -41,7 +57,7 @@ function createCatDataSet(datum, arrayDatos, children, level) {
     var link = datum.url;
 
     if (children.length != 0) {
-        children = $.merge(children, generateChildrenDataTree(arrayDatos, name, level+2));
+        children = $.merge(children, generateChildrenDataTree(arrayDatos, datum, level+2));
         return {
             name: name,
             children: children,
@@ -55,22 +71,22 @@ function createCatDataSet(datum, arrayDatos, children, level) {
           size: level,
           link: link,
           data: datum,
-          children: generateChildrenDataTree(arrayDatos, name, level+1)
+          children: generateChildrenDataTree(arrayDatos, datum, level+1)
         };
     }
     return null;
 }
 
 
-function createDataSet(datum, level) {
-    var name = datum.titulo;
-    var link = datum.url;
-    var children = generateChildrenDataVersionTree(datum.versiones, level+1);
+function createDataSet(dataset, level) {
+    var name = dataset.titulo;
+    var link = dataset.url;
+    var children = generateChildrenDataVersionTree(dataset.versiones, level+1);
     return {
       name: name,
       size: level,
       link: link,
-      data: datum,
+      data: dataset,
       children: children
     };
 }
@@ -83,15 +99,15 @@ function generateChildrenDataVersionTree(array, level) {
   );
 }
 
-function createDataSetVersion(dataset, level) {
-    var name = dataset.titulo;
-    var link = dataset.url;
-    var children = generateChildrenDataVersionResourcesTree(dataset.recursos, level+1);
+function createDataSetVersion(version, level) {
+    var name = version.titulo;
+    var link = version.url;
+    var children = generateChildrenDataVersionResourcesTree(version.recursos, level+1);
     return {
       name: name,
       size: level,
       link: link,
-      data: dataset,
+      data: version,
       children: children
     };
 }
@@ -104,16 +120,19 @@ function generateChildrenDataVersionResourcesTree(array, level) {
   );
 }
 
-function createDataSetVersionResource(version, level) {
-    var name = version.titulo;
-    var link = version.url;
+function createDataSetVersionResource(recurso, level) {
+    var name = recurso.titulo;
+    var link = recurso.url;
+    var tipo = recurso.icon;
     return {
       name: name,
       size: level,
       link: link,
-      data: version
+      icon: tipo,
+      data: recurso
     };
 }
+
 function getSubordinates(array, parent) {
     return _.filter(array, function(datum) {
       return datum.depende_de == parent;

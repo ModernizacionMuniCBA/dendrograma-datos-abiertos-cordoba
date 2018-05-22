@@ -247,7 +247,7 @@ d3.chart("hierarchy").extend("cluster-tree", {
       insert: function() {
         var ret = this.append("g").classed("node", true);
         ret.attr("class", function(d){
-          return "node d-"+ d.depth;
+          return "node d-"+ d.depth + (d.icon!=null || d.icon!= undefined? " "+d.icon : "");
         });
         return ret;
       },
