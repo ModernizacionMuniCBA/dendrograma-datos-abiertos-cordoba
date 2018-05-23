@@ -574,7 +574,7 @@ d3.chart("cluster-tree").extend("cluster-tree.radial", {
       this.select("text")
         .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
         .attr("transform",   function(d) { return d.x < 180 ? "translate(40)" : "rotate(180)translate(-40)"; })
-        .call(wrap, 125);
+        .call(wrap, 200);
     });
 
     chart.layers.nodes.on("merge:transition", function() {

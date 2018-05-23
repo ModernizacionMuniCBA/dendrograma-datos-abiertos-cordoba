@@ -1,6 +1,15 @@
 
 $(document).ready(function() {
-
+  function getParameterByName(name, url) {
+      if (!url) url = window.location.href;
+      name = name.replace(/[\[\]]/g, "\\$&");
+      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+          results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, " "));
+  }
+  
   var spinner;
   function startSpinner(elementId) {
       var opts = {
@@ -52,13 +61,17 @@ $(document).ready(function() {
     function graph(){
       stopSpinner('vis');
       var results = generateTree(cats.results, datos, 1)[0];
-
+      var radius = 250;
+      var selectedradius = getParameterByName("radio");
+      if (selectedradius) {
+          radius = selectedradius;
+      }
       var cluster = d3.select("#vis").append("svg")
 
         .chart("cluster.radial")
 
         .radius(function(d) { if( d.size ) return 30/d.size; else return 3; })
-        .levelGap(200)
+        .levelGap(radius)
         .zoomable([0.1, 3])
         .collapsible(1)
         .colors(d3.scale.category10())
