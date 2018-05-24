@@ -5,7 +5,7 @@
  * Copyright (c) 2015 Anna Bansaghi <anna.bansaghi@mamikon.net> (http://mamikon.net)
  * Library released under BSD-3-Clause license.
  */
-
+var gobAbBase = "https://gobiernoabierto.cordoba.gob.ar";
 (function(global, factory) {
   "use strict";
 
@@ -258,15 +258,18 @@ d3.chart("hierarchy").extend("cluster-tree", {
 
           this.append("circle")
             .attr("r", 0)
+            .on("click", function(event) { chart.trigger("click:node", event); });
 
-
-          this.append("text")
+          this.append("a")
+                .attr("xlink:href", (function(d) {return gobAbBase+d.link; }))
+                .attr("target","_blank")
+                .append("text")
             .attr("dy", ".35em")
             .text(function(d) { return d[chart.options.name]; })
             .style("fill-opacity", 0);
 
 
-          this.on("click", function(event) { chart.trigger("click:node", event); });
+          // this.on("click", function(event) { chart.trigger("click:node", event); });
         },
 /*
         "merge": function() {
@@ -285,7 +288,8 @@ d3.chart("hierarchy").extend("cluster-tree", {
             .attr("r", chart.options.radius);
 
           this.select("text")
-            .style("fill-opacity", 1);
+              .style("fill-opacity", 1);
+
         },
 
         "exit:transition": function() {
@@ -1127,7 +1131,7 @@ d3.chart("hierarchy").extend("treemap", {
             .attr("height", function(d) { return d.dy; })
             .attr("fill", function(d) { return d.parent ? chart.d3.colorScale(d.parent[chart.options.name]) : null; });
 
-          this.append("text")
+            this.append("text")
             .attr("x", function(d) { return d.dx / 2; })
             .attr("y", function(d) { return d.dy / 2; })
             .attr("dy", ".35em")
