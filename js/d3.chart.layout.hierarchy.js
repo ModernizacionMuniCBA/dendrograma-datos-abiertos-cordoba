@@ -261,7 +261,7 @@ d3.chart("hierarchy").extend("cluster-tree", {
             .on("click", function(event) { chart.trigger("click:node", event); });
 
           this.append("a")
-                .attr("xlink:href", (function(d) {return gobAbBase+d.link; }))
+                .attr("xlink:href", (function(d) {if(typeof d.link=="string"){if(d.link.slice(0) != "/"){return d.link;}else{return gobAbBase+d.link;}}}))//return gobAbBase+d.link; }))
                 .attr("target","_blank")
                 .append("text")
             .attr("dy", ".35em")
