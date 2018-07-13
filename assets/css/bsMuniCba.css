@@ -403,13 +403,13 @@ nav ul li a:before {
 
 /* FOOTER */
 footer{
-  padding-bottom: 20px;
+  padding-bottom: 2px;
   background-color: #FFF;
 }
 .footer-logos{
   display: flex;
   align-items: center;
-  margin-top: 35px;
+  margin-top: 10px;
 }
 .footer-logos-row{
   margin: 0 auto;
@@ -439,7 +439,7 @@ footer{
   -webkit-transition: all .2s ease-in-out;
 }
 .redesSociales a:hover{
-  color: #FFF;
+  color: #FFF!important;
 }
 .redesSociales a:hover span.fa-stack{
   border: 7px solid #00a665;
@@ -481,7 +481,7 @@ footer{
   font-weight: 500;
 }
 .linksFooter{
-  margin-top: 20px;
+  margin-top: 10px;
 }
 .lista-links a:hover{
   color: #00a665;
