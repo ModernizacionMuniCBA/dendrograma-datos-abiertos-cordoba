@@ -1,6 +1,6 @@
 #vis {
   width: 100%;
-  height: 95vh;
+  height: 110vh;
   display:block;
   margin:auto;
 }
@@ -8,7 +8,7 @@
 @media (min-width: 768px) {
   #vis {
     width: 100%;
-    height: 95vh;
+    height: 110vh;
     display:block;
     margin:auto;
   }
